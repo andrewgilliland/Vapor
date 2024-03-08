@@ -13,4 +13,14 @@ func routes(_ app: Application) throws {
         let name = req.parameters.get("name")
         return "Hello \(name ?? "Biff")!"
     }
+    
+    app.get("about") { _ in
+      HTML(value: """
+      <html>
+        <body>
+          <h1>Hello, World!</h1>
+        </body>
+      </html>
+      """)
+    }
 }
