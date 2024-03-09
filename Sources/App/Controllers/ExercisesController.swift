@@ -7,8 +7,11 @@ struct ExercisesController: RouteCollection {
         
         route.get(use: getAllExercises)
         
-        route.get(":exerciseId", use: getExerciseById )
+        route.get(":exerciseId", use: getExerciseById)
+            
+        route.get("page", use: getExercisesPage)
         }
+        
     }
     
     func getAllExercises(req: Request) async throws -> String {
@@ -22,5 +25,16 @@ struct ExercisesController: RouteCollection {
         }
         
         return "exerciseId: \(exerciseId)"
+    }
+    
+    func getExercisesPage(req: Request) throws -> HTML {
+        
+       return HTML(value: """
+          <html>
+            <body>
+              <h1>Hello, World!</h1>
+            </body>
+          </html>
+          """)
     }
 }
