@@ -15,6 +15,9 @@ struct ExercisesController: RouteCollection {
     }
     
     func getAllExercises(req: Request) async throws -> String {
+        
+        let exercises = try await Exercise.query(on: req.db).all()
+        print(exercises)
         return "Exercises"
     }
     

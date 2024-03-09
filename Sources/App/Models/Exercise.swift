@@ -1,13 +1,14 @@
 import Foundation
 import Fluent
 import Vapor
+import MongoKitten
 
 final class Exercise: Model {
     
     static let schema: String = "exercises"
     
-    @ID(key: .id)
-    var id: UUID?
+    @ID(custom: .id)
+    var id: ObjectId?
     
     @Field(key: "name")
     var name: String
@@ -35,7 +36,7 @@ final class Exercise: Model {
     
     init() { }
     
-    init(id: UUID? = nil, name: String, difficulty: String, equipment: String, exerciseType: String, forceType: String, mechanics: String, secondaryMuscles: [String], targetMuscleGroup: String) {
+    init(id: ObjectId? = nil, name: String, difficulty: String, equipment: String, exerciseType: String, forceType: String, mechanics: String, secondaryMuscles: [String], targetMuscleGroup: String) {
         self.id = id
         self.name = name
         self.equipment = equipment
