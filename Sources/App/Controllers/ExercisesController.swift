@@ -3,11 +3,12 @@ import Vapor
 
 struct ExercisesController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        let exercises = routes.grouped("exercises")
+        routes.grouped(AuthenticationMiddleware()).group("exercises") { route in
         
-        exercises.get(use: getAllExercises)
+        route.get(use: getAllExercises)
         
-        exercises.get(":exerciseId", use: getExerciseById )
+        route.get(":exerciseId", use: getExerciseById )
+        }
     }
     
     func getAllExercises(req: Request) async throws -> String {
