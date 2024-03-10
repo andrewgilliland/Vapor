@@ -9,16 +9,16 @@ struct ExercisesController: RouteCollection {
         
         route.get(":exerciseId", use: getExerciseById)
             
+        route.post(use: createExercise)
+            
         route.get("page", use: getExercisesPage)
         }
         
     }
     
-    func getAllExercises(req: Request) async throws -> String {
-        
+    func getAllExercises(req: Request) async throws -> [Exercise] {
         let exercises = try await Exercise.query(on: req.db).all()
-        print(exercises)
-        return "Exercises"
+        return exercises
     }
     
     func getExerciseById(req: Request) async throws -> String {
@@ -28,6 +28,12 @@ struct ExercisesController: RouteCollection {
         }
         
         return "exerciseId: \(exerciseId)"
+    }
+    
+    func createExercise(req: Request) async throws -> Exercise {
+        let exercise = try req.content.decode(Exercise.self)
+        try await exercise.save(on: req.db)
+        return exercise
     }
     
     func getExercisesPage(req: Request) throws -> HTML {

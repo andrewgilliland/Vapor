@@ -3,7 +3,7 @@ import Fluent
 import Vapor
 import MongoKitten
 
-final class Exercise: Model {
+final class Exercise: Model, Content {
     
     static let schema: String = "exercises"
     
@@ -14,29 +14,29 @@ final class Exercise: Model {
     var name: String
     
     @Field(key: "difficulty")
-    var difficulty: String
+    var difficulty: Difficulty
     
     @Field(key: "equipment")
-    var equipment: String
+    var equipment: Equipment
     
     @Field(key: "exerciseType")
-    var exerciseType: String
+    var exerciseType: ExerciseType
     
     @Field(key: "forceType")
-    var forceType: String
+    var forceType: ForceType
     
     @Field(key: "mechanics")
-    var mechanics: String
+    var mechanics: Mechanics
     
     @Field(key: "secondaryMuscles")
-    var secondaryMuscles: [String]
+    var secondaryMuscles: [MuscleGroup]
     
     @Field(key: "targetMuscleGroup")
-    var targetMuscleGroup: String
+    var targetMuscleGroup: MuscleGroup
     
     init() { }
     
-    init(id: ObjectId? = nil, name: String, difficulty: String, equipment: String, exerciseType: String, forceType: String, mechanics: String, secondaryMuscles: [String], targetMuscleGroup: String) {
+    init(id: ObjectId? = nil, name: String, difficulty: Difficulty, equipment: Equipment, exerciseType: ExerciseType, forceType: ForceType, mechanics: Mechanics, secondaryMuscles: [MuscleGroup], targetMuscleGroup: MuscleGroup) {
         self.id = id
         self.name = name
         self.equipment = equipment

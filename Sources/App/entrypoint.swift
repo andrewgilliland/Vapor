@@ -4,6 +4,7 @@ import Logging
 @main
 enum Entrypoint {
     static func main() async throws {
+        print("Server running")
         var env = try Environment.detect()
         try LoggingSystem.bootstrap(from: &env)
         

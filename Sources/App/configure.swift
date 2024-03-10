@@ -7,6 +7,7 @@ public func configure(_ app: Application) async throws {
     // uncomment to serve files from /Public folder
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     
+    // Connect to MongoDB
     try app.databases.use(.mongo(connectionString: ProcessInfo.processInfo.environment["MONGO_URL"] ?? ""), as: .mongo )
     
     // register routes
