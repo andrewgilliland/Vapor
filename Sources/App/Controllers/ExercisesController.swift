@@ -1,5 +1,6 @@
 import Foundation
 import Vapor
+import MongoKitten
 
 struct ExercisesController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
@@ -21,13 +22,16 @@ struct ExercisesController: RouteCollection {
         return exercises
     }
     
-    func getExerciseById(req: Request) async throws -> String {
-        
-        guard let exerciseId = req.parameters.get("exerciseId", as: String.self ) else {
+    func getExerciseById(req: Request) async throws -> Exercise {
+        guard let exerciseId = req.parameters.get("exerciseId", as: ObjectId.self ) else {
             throw Abort(.internalServerError)
         }
         
-        return "exerciseId: \(exerciseId)"
+        guard let exercise = try await Exercise.find(exerciseId, on: req.db) else {
+            throw Abort(.badRequest)
+        }
+        
+        return exercise
     }
     
     func createExercise(req: Request) async throws -> Exercise {
