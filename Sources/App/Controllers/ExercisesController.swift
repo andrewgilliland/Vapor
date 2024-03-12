@@ -12,6 +12,8 @@ struct ExercisesController: RouteCollection {
             
         route.post(use: createExercise)
             
+        route.delete(":exerciseId", use: deleteExerciseById)
+            
         route.get("page", use: getExercisesPage)
         }
         
@@ -37,6 +39,21 @@ struct ExercisesController: RouteCollection {
     func createExercise(req: Request) async throws -> Exercise {
         let exercise = try req.content.decode(Exercise.self)
         try await exercise.save(on: req.db)
+        return exercise
+    }
+    
+    func deleteExerciseById(req: Request) async throws -> Exercise {
+        print("deleteExerciseById")
+        guard let exerciseId = req.parameters.get("exerciseId", as: ObjectId.self ) else {
+            throw Abort(.internalServerError)
+        }
+        
+        guard let exercise = try await Exercise.find(exerciseId, on: req.db) else {
+            throw Abort(.badRequest)
+        }
+        
+        try await exercise.delete(on: req.db)
+        
         return exercise
     }
     
